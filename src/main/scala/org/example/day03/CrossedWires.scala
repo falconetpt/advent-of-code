@@ -25,7 +25,7 @@ class CrossedWires {
     val locations1 = calculateSets(moveset1)
     val locations2 = calculateSets(moveset2)
 
-    val minimumIntersect = locations1.keySet.intersect(locations2.keySet)
+    val minimumDistanceIntersect = locations1.keySet.intersect(locations2.keySet)
       .map(x => Math.abs(x._1) + Math.abs(x._2))
       .min
 
@@ -33,7 +33,7 @@ class CrossedWires {
       .map(key => locations1(key) + locations2(key))
       .min
 
-    (minimumIntersect, minimumStepIntersect)
+    (minimumDistanceIntersect, minimumStepIntersect)
   }
 
 
