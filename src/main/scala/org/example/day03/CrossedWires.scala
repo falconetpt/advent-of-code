@@ -17,7 +17,7 @@ class CrossedWires {
     "D" -> down
   )
 
-  def process(filename: String) : Int = {
+  def process(filename: String) : (Int, Int) = {
     val extractResult = new FileReader(filename).extractResult()
     val moveset1 = extractResult.next().split(",").flatMap(convertToMoveSet)
     val moveset2 = extractResult.next().split(",").flatMap(convertToMoveSet)
@@ -25,16 +25,24 @@ class CrossedWires {
     val locations1 = calculateSets(moveset1)
     val locations2 = calculateSets(moveset2)
 
-    locations1.intersect(locations2).map(x => Math.abs(x._1) + Math.abs(x._2)).min
+    val minimumIntersect = locations1.keySet.intersect(locations2.keySet)
+      .map(x => Math.abs(x._1) + Math.abs(x._2))
+      .min
+
+    val minimumStepIntersect = locations1.keySet.intersect(locations2.keySet)
+      .map(key => locations1(key) + locations2(key))
+      .min
+
+    (minimumIntersect, minimumStepIntersect)
   }
 
 
-  private def calculateSets(array: Array[(Int, Int)]): Set[(Int, Int)] = {
+  private def calculateSets(array: Array[(Int, Int)]): Map[(Int, Int), Int] = {
     @tailrec
     def calculateSets(array: Array[(Int, Int)],
                       index: Int,
                       pointBefore: (Int, Int),
-                      result: Set[(Int, Int)]): Set[(Int, Int)] = {
+                      result: Map[(Int, Int), Int]): Map[(Int, Int), Int] = {
       if(index >= array.size) {
         result
       } else {
@@ -42,11 +50,11 @@ class CrossedWires {
         val (xBefore, yBefore) = pointBefore
         val newPoint = (xBefore + xTranslation, yBefore + yTransalation)
 
-        calculateSets(array, index + 1, newPoint, result ++ Set(newPoint))
+        calculateSets(array, index + 1, newPoint, result ++ Map(newPoint -> (index + 1)))
       }
     }
 
-    calculateSets(array, 0, (0, 0), Set())
+    calculateSets(array, 0, (0, 0), Map())
   }
 
   private def convertToMoveSet(x: String): IndexedSeq[(Int, Int)] = {
