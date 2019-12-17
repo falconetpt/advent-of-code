@@ -151,7 +151,7 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.6.0</version>
         <configuration>
-          <mainClass>org.example.MyRouteMain</mainClass>
+          <mainClass>org.example.Main</mainClass>
         </configuration>
       </plugin>
     </plugins>
