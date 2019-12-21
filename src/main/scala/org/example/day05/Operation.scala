@@ -83,3 +83,50 @@ class Output extends Operation {
   }
 }
 
+class JumpIfTrue extends Operation {
+  override def calculate(numberList: Array[Int], startIndex: Int, mode: Int): OperationResult = {
+    val modes = OperationModeExtract.extractModes(mode, 3)
+    val num1 = OperationModeExtract.applyMode(numberList, startIndex + 1, modes(0))
+    val num2 = OperationModeExtract.applyMode(numberList, startIndex + 2, modes(1))
+    val postion = if(num1 != 0) num2 else startIndex + 3
+
+    new OperationResult(numberList(startIndex), startIndex, postion)
+  }
+}
+
+class JumpIfFalse extends Operation {
+  override def calculate(numberList: Array[Int], startIndex: Int, mode: Int): OperationResult = {
+    val modes = OperationModeExtract.extractModes(mode, 3)
+    val num1 = OperationModeExtract.applyMode(numberList, startIndex + 1, modes(0))
+    val num2 = OperationModeExtract.applyMode(numberList, startIndex + 2, modes(1))
+    val postion = if(num1 == 0) num2 else startIndex + 3
+
+    new OperationResult(numberList(startIndex), startIndex, postion)
+  }
+}
+
+class LessThan extends Operation {
+  override def calculate(numberList: Array[Int], startIndex: Int, mode: Int): OperationResult = {
+    val modes = OperationModeExtract.extractModes(mode, 3)
+    val num1 = OperationModeExtract.applyMode(numberList, startIndex + 1, modes(0))
+    val num2 = OperationModeExtract.applyMode(numberList, startIndex + 2, modes(1))
+    val position = numberList(startIndex + 3)
+
+    val value = if (num1 < num2) 1 else 0
+
+    new OperationResult(value, position, startIndex + 4)
+  }
+}
+
+class Equals extends Operation {
+  override def calculate(numberList: Array[Int], startIndex: Int, mode: Int): OperationResult = {
+    val modes = OperationModeExtract.extractModes(mode, 3)
+    val num1 = OperationModeExtract.applyMode(numberList, startIndex + 1, modes(0))
+    val num2 = OperationModeExtract.applyMode(numberList, startIndex + 2, modes(1))
+    val position = numberList(startIndex + 3)
+
+    val value = if (num1 == num2) 1 else 0
+
+    new OperationResult(value, position, startIndex + 4)
+  }
+}

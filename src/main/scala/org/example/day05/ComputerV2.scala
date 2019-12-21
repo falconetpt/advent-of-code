@@ -9,6 +9,11 @@ class ComputerV2 {
   private val multiplyIndex = 2
   private val inputIndex = 3
   private val outputIndex = 4
+  private val jumpIfTrueIndex = 5
+  private val jumpIfFalseIndex = 6
+  private val lessThanIndex = 7
+  private val equalsIndex = 8
+
   private val stop = (i: Int) => i == 99
 
   private val sum = (a: Int, b: Int) => a + b
@@ -18,7 +23,11 @@ class ComputerV2 {
     sumIndex -> new Sum(),
     multiplyIndex -> new Multiply(),
     inputIndex -> new Input(),
-    outputIndex -> new Output()
+    outputIndex -> new Output(),
+    jumpIfTrueIndex -> new JumpIfTrue(),
+    jumpIfFalseIndex -> new JumpIfFalse(),
+    lessThanIndex -> new LessThan(),
+    equalsIndex -> new Equals()
   )
 
   def calculate(file: String): Array[Int] = {
